@@ -25,14 +25,24 @@ class StockRegistry:
     async def initialize(self):
         """pykrx에서 한국 종목 마스터를 로드."""
         try:
-            from pykrx import stock as pykrx_stock
+            # pykrx 내부가 logging.info(args, kwargs)를 잘못 호출 → Python 3.10에서 깨짐
+            # root logger를 임시로 올려서 방지
+            root_logger = logging.getLogger()
+            prev_level = root_logger.level
+            root_logger.setLevel(logging.CRITICAL)
 
-            for market_name in ["KOSPI", "KOSDAQ"]:
-                tickers = pykrx_stock.get_market_ticker_list(market=market_name)
-                for ticker in tickers:
-                    name = pykrx_stock.get_market_ticker_name(ticker)
-                    self._kr_name_to_ticker[name] = ticker
-                    self._kr_ticker_to_name[ticker] = name
+            try:
+                from pykrx import stock as pykrx_stock
+
+                for market_name in ["KOSPI", "KOSDAQ"]:
+                    tickers = pykrx_stock.get_market_ticker_list(market=market_name)
+                    for ticker in tickers:
+                        name = pykrx_stock.get_market_ticker_name(ticker)
+                        self._kr_name_to_ticker[name] = ticker
+                        self._kr_ticker_to_name[ticker] = name
+            finally:
+                root_logger.setLevel(prev_level)
+
             logger.info(
                 f"Loaded {len(self._kr_name_to_ticker)} Korean stocks from pykrx"
             )
@@ -131,7 +141,14 @@ class StockRegistry:
         try:
             from pykrx import stock as pykrx_stock
 
-            kospi = pykrx_stock.get_market_ticker_list(market="KOSPI")
+            root_logger = logging.getLogger()
+            prev_level = root_logger.level
+            root_logger.setLevel(logging.CRITICAL)
+            try:
+                kospi = pykrx_stock.get_market_ticker_list(market="KOSPI")
+            finally:
+                root_logger.setLevel(prev_level)
+
             if ticker in kospi:
                 return "KOSPI"
             return "KOSDAQ"
