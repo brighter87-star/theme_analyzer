@@ -32,8 +32,8 @@ class Settings(BaseSettings):
     daily_report_minute: int = 0
     timezone: str = "Asia/Seoul"
 
-    # Paths
-    base_dir: Path = Path("c:/theme_analyzer")
+    # Paths - 프로젝트 루트 자동 감지 (settings.py 기준 상위 디렉토리)
+    base_dir: Path = Path(__file__).resolve().parent.parent
     db_path: Optional[Path] = None
     image_dir: Optional[Path] = None
     export_dir: Optional[Path] = None
