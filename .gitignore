@@ -1,0 +1,33 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+
+# Data (DB, images, sessions)
+data/theme_analyzer.db
+data/theme_analyzer.db-wal
+data/theme_analyzer.db-shm
+data/images/
+*.session
+*.session-journal
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+nul
+
+# Claude Code
+.claude/
+
+# Misc artifacts
+=2.0.0
+telegram API *.txt

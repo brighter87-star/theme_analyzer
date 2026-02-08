@@ -1,0 +1,32 @@
+# Telegram
+telethon>=1.42.0
+python-telegram-bot>=22.6
+
+# AI
+anthropic>=0.42.0
+
+# Database
+aiosqlite>=0.20.0
+
+# Stock data
+pykrx>=1.0.45
+yfinance>=0.2.36
+numpy>=2.0.0
+
+# Scheduling
+APScheduler>=3.11.0
+
+# Config
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
+PyYAML>=6.0.1
+
+# Text processing
+rapidfuzz>=3.6.0
+
+# Image processing
+Pillow>=10.2.0
+
+# Utilities
+python-dotenv>=1.0.0
+aiofiles>=23.2.0

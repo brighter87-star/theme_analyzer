@@ -1,0 +1,117 @@
+# 기본 테마 정의
+# 종목이 10개를 초과하면 자동으로 sub_themes로 세분화됩니다.
+
+kr_themes:
+  반도체:
+    name_en: "Semiconductors"
+    sub_themes:
+      - { name_ko: "반도체 전공정", name_en: "Semiconductor Front-end" }
+      - { name_ko: "반도체 후공정", name_en: "Semiconductor Back-end" }
+      - { name_ko: "반도체 장비", name_en: "Semiconductor Equipment" }
+      - { name_ko: "반도체 소재", name_en: "Semiconductor Materials" }
+
+  AI/인공지능:
+    name_en: "AI/Artificial Intelligence"
+    sub_themes: []
+
+  2차전지/배터리:
+    name_en: "Secondary Batteries"
+    sub_themes:
+      - { name_ko: "양극재", name_en: "Cathode Materials" }
+      - { name_ko: "음극재", name_en: "Anode Materials" }
+      - { name_ko: "전해질", name_en: "Electrolyte" }
+      - { name_ko: "분리막", name_en: "Separator" }
+      - { name_ko: "배터리셀", name_en: "Battery Cell" }
+
+  바이오/제약:
+    name_en: "Bio/Pharma"
+    sub_themes:
+      - { name_ko: "신약개발", name_en: "Drug Development" }
+      - { name_ko: "바이오시밀러", name_en: "Biosimilar" }
+      - { name_ko: "의료기기", name_en: "Medical Devices" }
+
+  자동차/모빌리티:
+    name_en: "Automotive/Mobility"
+    sub_themes: []
+
+  방산/우주항공:
+    name_en: "Defense/Aerospace"
+    sub_themes: []
+
+  로봇:
+    name_en: "Robotics"
+    sub_themes: []
+
+  엔터/미디어:
+    name_en: "Entertainment/Media"
+    sub_themes: []
+
+  조선/해운:
+    name_en: "Shipbuilding/Shipping"
+    sub_themes: []
+
+  원자력/에너지:
+    name_en: "Nuclear/Energy"
+    sub_themes: []
+
+  금융:
+    name_en: "Finance"
+    sub_themes: []
+
+  건설/인프라:
+    name_en: "Construction/Infrastructure"
+    sub_themes: []
+
+  화장품/소비재:
+    name_en: "Cosmetics/Consumer"
+    sub_themes: []
+
+  게임:
+    name_en: "Gaming"
+    sub_themes: []
+
+us_themes:
+  Semiconductors:
+    name_ko: "반도체"
+    sub_themes:
+      - { name_ko: "AI 칩/GPU", name_en: "AI Chips / GPUs" }
+      - { name_ko: "반도체 장비", name_en: "Semiconductor Equipment" }
+      - { name_ko: "메모리/스토리지", name_en: "Memory & Storage" }
+
+  AI Infrastructure:
+    name_ko: "AI 인프라"
+    sub_themes:
+      - { name_ko: "클라우드/하이퍼스케일러", name_en: "Cloud/Hyperscalers" }
+      - { name_ko: "AI 소프트웨어/SaaS", name_en: "AI Software/SaaS" }
+
+  EV & Clean Energy:
+    name_ko: "전기차/클린에너지"
+    sub_themes: []
+
+  Big Tech:
+    name_ko: "빅테크"
+    sub_themes: []
+
+  Biotech/Pharma:
+    name_ko: "바이오/제약"
+    sub_themes: []
+
+  Defense/Aerospace:
+    name_ko: "방산/우주항공"
+    sub_themes: []
+
+  Fintech:
+    name_ko: "핀테크"
+    sub_themes: []
+
+  Cybersecurity:
+    name_ko: "사이버보안"
+    sub_themes: []
+
+  Quantum Computing:
+    name_ko: "양자컴퓨팅"
+    sub_themes: []
+
+  Robotics/Automation:
+    name_ko: "로봇/자동화"
+    sub_themes: []
