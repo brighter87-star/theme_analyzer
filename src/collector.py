@@ -116,7 +116,7 @@ class MessageCollector:
             )
 
             count = 0
-            async for message in self.client.iter_messages(entity, limit=500):
+            async for message in self.client.iter_messages(entity, limit=2000):
                 if message.date.replace(tzinfo=timezone.utc) < cutoff:
                     break
 
