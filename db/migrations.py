@@ -98,6 +98,8 @@ CREATE INDEX IF NOT EXISTS idx_stocks_market ON stocks(market);
 MIGRATIONS = [
     # v1: daily_stock_themes에 sector 컬럼 추가
     "ALTER TABLE daily_stock_themes ADD COLUMN sector TEXT NOT NULL DEFAULT 'other'",
+    # v2: stocks에 industry 컬럼 추가 (yfinance 업종 캐싱)
+    "ALTER TABLE stocks ADD COLUMN industry TEXT",
 ]
 
 

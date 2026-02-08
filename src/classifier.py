@@ -7,6 +7,7 @@ import yaml
 
 from config.settings import Settings
 from db.repository import Repository
+from utils.industry_resolver import resolve_industries
 from utils.rate_limiter import RateLimiter
 
 logger = logging.getLogger(__name__)
@@ -119,6 +120,7 @@ CLASSIFICATION_PROMPT = """당신은 주식 테마 분류 전문가입니다.
 4. 각 종목은 가장 적합한 1개 테마에만 배정 (정말 두 테마에 걸치는 경우만 2개)
 5. reason은 15자 이내, 해당 종목의 사업 내용 기반
 6. ticker가 빈 종목은 제외
+7. **industry 힌트가 있으면 반드시 참고**: 종목의 실제 업종(industry)이 제공된 경우, 메시지 맥락보다 실제 업종을 우선하여 sector와 테마를 결정. 예: industry가 "Semiconductor Equipment"이면 "AI칩/GPU"가 아닌 "반도체장비"로 분류
 
 반드시 아래 JSON 형식으로만 응답하세요:
 {{
@@ -200,6 +202,9 @@ class ThemeClassifier:
         if not mentions:
             logger.info(f"No stock mentions for {report_date}")
             return {"kr": {}, "us": {}}
+
+        # yfinance 업종 정보 조회 (US 종목만, DB 캐싱)
+        mentions = await resolve_industries(mentions, self.repo)
 
         kr_stocks = [m for m in mentions if m["market"] == "KR"]
         us_stocks = [m for m in mentions if m["market"] == "US"]
@@ -364,12 +369,16 @@ class ThemeClassifier:
         total_batches: int,
         existing_theme_names: list[str],
     ) -> dict:
-        stock_list = "\n".join(
-            f"- {s.get('name_ko') or s.get('name_en') or s['ticker']} "
-            f"(ticker: {s['ticker']}): "
-            f"언급 {s['mention_count']}회, 맥락: {(s.get('aggregated_context') or '')[:80]}"
-            for s in stocks
-        )
+        def _fmt_stock(s: dict) -> str:
+            name = s.get('name_ko') or s.get('name_en') or s['ticker']
+            industry = s.get('industry') or ''
+            ticker_part = f"ticker: {s['ticker']}"
+            if industry:
+                ticker_part += f", industry: {industry}"
+            ctx = (s.get('aggregated_context') or '')[:80]
+            return f"- {name} ({ticker_part}): 언급 {s['mention_count']}회, 맥락: {ctx}"
+
+        stock_list = "\n".join(_fmt_stock(s) for s in stocks)
 
         # 이전 배치에서 이미 사용된 테마명 전달
         if existing_theme_names:

@@ -160,6 +160,14 @@ class Repository:
         await conn.commit()
         return cursor.lastrowid
 
+    async def update_stock_industry(self, stock_id: int, industry: str):
+        conn = await self.db.get_connection()
+        await conn.execute(
+            "UPDATE stocks SET industry = ? WHERE id = ?",
+            (industry, stock_id),
+        )
+        await conn.commit()
+
     async def search_stock(self, query: str) -> list[dict]:
         conn = await self.db.get_connection()
         pattern = f"%{query}%"
@@ -195,7 +203,7 @@ class Repository:
         conn = await self.db.get_connection()
         cursor = await conn.execute(
             """SELECT
-                 s.id as stock_id, s.ticker, s.name_ko, s.name_en, s.market, s.exchange,
+                 s.id as stock_id, s.ticker, s.name_ko, s.name_en, s.market, s.exchange, s.industry,
                  COUNT(sm.id) as mention_count,
                  GROUP_CONCAT(sm.mention_context, ' | ') as aggregated_context,
                  CASE
