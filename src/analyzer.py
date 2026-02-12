@@ -159,6 +159,17 @@ class StockAnalyzer:
             messages=[{"role": "user", "content": prompt}],
         )
 
+        # 응답이 max_tokens로 잘렸으면 배치를 반으로 나눠 재시도
+        if response.stop_reason == "max_tokens" and len(messages) > 1:
+            mid = len(messages) // 2
+            logger.warning(
+                f"Response truncated (max_tokens), splitting batch "
+                f"{len(messages)} -> {mid} + {len(messages) - mid}"
+            )
+            count1 = await self._analyze_text_batch(messages[:mid])
+            count2 = await self._analyze_text_batch(messages[mid:])
+            return count1 + count2
+
         raw_text = response.content[0].text.strip()
         parsed = self._parse_json_response(raw_text)
         if parsed is None:
