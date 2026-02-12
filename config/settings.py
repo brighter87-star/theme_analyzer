@@ -43,7 +43,10 @@ class Settings(BaseSettings):
     lookback_hours: int = 24
     batch_size: int = 10
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {
+        "env_file": str(Path(__file__).resolve().parent.parent / ".env"),
+        "env_file_encoding": "utf-8",
+    }
 
     def model_post_init(self, __context):
         if self.db_path is None:
